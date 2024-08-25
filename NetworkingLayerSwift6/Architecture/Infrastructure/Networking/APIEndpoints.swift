@@ -15,6 +15,13 @@ private enum Constants {
     static let multipartFormDataContentType = "multipart/form-data"
 }
 
+// Endpoints
+enum APIEndpoint {
+    case getPosts
+    case createPost(PostDTO)
+    case uploadImage(data: Data, fileName: String, mimeType: ImageMimeType)
+}
+
 /// Extension to conform to `APIEndpointProtocol`.
 extension APIEndpoint: APIEndpointProtocol {
     /// API version used by endpoints.
