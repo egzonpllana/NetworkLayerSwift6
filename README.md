@@ -30,10 +30,40 @@ try await apiClient.requestWithProgress(APIEndpoint.uploadImage(...),
 APIEndpointProtocol defines the essential components of an API endpoint, such as HTTP methods, paths, base URLs, headers, URL parameters, and request bodies. It ensures a consistent and clear approach to constructing network requests through its urlRequest property, which assembles a URLRequest by combining these elements.
 
 ```swift
-enum APIEndpoint {
- case getPosts
- case createPost(PostDTO)
- case uploadImage(data: Data, fileName: String, mimeType: String)
+protocol APIEndpointProtocol {
+    /// HTTP method used by the endpoint.
+    var method: HTTPMethod { get }
+    
+    /// Path for the endpoint.
+    var path: String { get }
+    
+    /// Base URL for the API.
+    var baseURL: String { get }
+    
+    /// Headers for the request.
+    var headers: [String: String] { get }
+    
+    /// URL parameters for the request.
+    var urlParams: [String: any CustomStringConvertible] { get }
+    
+    /// Body data for the request.
+    var body: Data? { get }
+    
+    /// URLRequest representation of the endpoint.
+    var urlRequest: URLRequest? { get }
+    
+    /// API version used by the endpoint.
+    var apiVersion: APIVersion { get }
+}
+
+/// Endpoints
+enum APIEndpoint: APIEndpointProtocol {
+    case getPosts
+    case createPost(PostDTO)
+    case uploadImage(data: Data, fileName: String, mimeType: ImageMimeType)
+
+    // Define all properties required by the protocol,
+    // matching your backend API.
 }
 ```
 
