@@ -43,13 +43,13 @@ APIClientProtocol defines the contract for making network requests and handling
 
 **Key methods include:**
 
-*   `request(:decoder:)`: Sends a request using URLSession, decodes the response into a specified type, and returns the result.
+* `request(:decoder:)`: Sends a request using URLSession, decodes the response into a specified type, and returns the result.
     
-*   `requestVoid(:)`: Sends a request that provides no response data.
+* `requestVoid(:)`: Sends a request that provides no response data.
     
-*   `requestWithAlamofire(:decoder:)`: Sends a request using Alamofire and decodes the response.
+* `requestWithAlamofire(:decoder:)`: Sends a request using Alamofire and decodes the response.
     
-*   `requestWithProgress(:progressDelegate:)`: Fetches raw data with optional upload progress tracking.
+* `requestWithProgress(:progressDelegate:)`: Fetches raw data with optional upload progress tracking.
 
 ```swift
 func request<T: Decodable & Sendable>(
@@ -73,34 +73,34 @@ func request<T: Decodable & Sendable>(
 
 **Parameters**
 
-*    `endpoint` any APIEndpointProtocol: This parameter represents the API endpoint that contains the URL request configuration. The any keyword allows for any type that conforms to APIEndpointProtocol. This protocol typically includes properties or methods to provide the URL request needed for the network call.
+* `endpoint` any APIEndpointProtocol: This parameter represents the API endpoint that contains the URL request configuration. The any keyword allows for any type that conforms to APIEndpointProtocol. This protocol typically includes properties or methods to provide the URL request needed for the network call.
     
-*   `decoder`: JSONDecoder: This parameter is an instance of JSONDecoder, used to decode the JSON response into a Swift model. The JSONDecoder converts JSON data into instances of types that conform to the Decodable protocol.
+* `decoder`: JSONDecoder: This parameter is an instance of JSONDecoder, used to decode the JSON response into a Swift model. The JSONDecoder converts JSON data into instances of types that conform to the Decodable protocol.
     
 
 **Generic Type T**
 
-*   `T: Decodable & Sendable`: is a generic type that must conform to both Decodable and Sendable protocols.Decodable: This protocol allows the type to be initialized from JSON data. It ensures that the type can be created from a serialized JSON format.
+* `T: Decodable & Sendable`: is a generic type that must conform to both Decodable and Sendable protocols.Decodable: This protocol allows the type to be initialized from JSON data. It ensures that the type can be created from a serialized JSON format.
     
-*    `Sendable`: This protocol indicates that the type can be safely used in concurrent code. It’s essential for types that will be used across different threads or tasks, ensuring that they don’t cause data races or concurrency issues.
+* `Sendable`: This protocol indicates that the type can be safely used in concurrent code. It’s essential for types that will be used across different threads or tasks, ensuring that they don’t cause data races or concurrency issues.
     
 
 **Functionality**
 
-*   **URL Request Validation**: The method first checks if the endpoint provides a valid URL request. If not, it throws an APIClientError.invalidURL, indicating a configuration issue. 
+* **URL Request Validation**: The method first checks if the endpoint provides a valid URL request. If not, it throws an APIClientError.invalidURL, indicating a configuration issue. 
     
-*   **Perform Network Request**: It uses performRequest to execute the network call and retrieve the response data asynchronously. This method is likely defined elsewhere and handles the actual communication with the server.
+* **Perform Network Request**: It uses performRequest to execute the network call and retrieve the response data asynchronously. This method is likely defined elsewhere and handles the actual communication with the server.
     
-*   **Decode Response Data**: The method attempts to decode the received data into the generic type T using the decoder. If decoding fails, it throws an APIClientError, providing details about the failure.
+* **Decode Response Data**: The method attempts to decode the received data into the generic type T using the decoder. If decoding fails, it throws an APIClientError, providing details about the failure.
     
 
 The APIClient also has additional methods for different use cases
 
-*   Request Void method, in cases when we only are interested in the request status (success or failure).
+* Request Void method, in cases when we only are interested in the request status (success or failure).
     
-*   Request through Alamofire, which I do not recommend, but just in case you are a fan of our beloved framework from the past.
+* Request through Alamofire, which I do not recommend, but just in case you are a fan of our beloved framework from the past.
     
-*   Request method that we want to get the request-response Data, in case we need to decode it differently.
+* Request method that we want to get the request-response Data, in case we need to decode it differently.
     
 
 #### Real app implementation
@@ -116,20 +116,20 @@ class HomeViewModel: ObservableObject {
    }
 }
 ```
-*   The class is marked as `ObservableObject`, which allows SwiftUI views to observe changes in its properties.
+* The class is marked as `ObservableObject`, which allows SwiftUI views to observe changes in its properties.
     
-*   The `@Published` modifier is used on the posts property so that the UI automatically updates whenever the value changes.
+* The `@Published` modifier is used on the posts property so that the UI automatically updates whenever the value changes.
     
-*   The `apiClient` is an instance of APIClient, which conforms to APIClientProtocol and handles all network interactions.
+* The `apiClient` is an instance of APIClient, which conforms to APIClientProtocol and handles all network interactions.
     
 
-The getPosts() method demonstrates how APIClient interacts with an API endpoint:
+The `getPosts()` method demonstrates how APIClient interacts with an API endpoint:
 
-*   apiClient.request(APIEndpoint.getPosts) sends a request to the getPosts endpoint, using the `request(_:decoder:)` method from APIClientProtocol.
+* apiClient.request(APIEndpoint.getPosts) sends a request to the getPosts endpoint, using the `request(_:decoder:)` method from APIClientProtocol.
     
-*   The result is decoded into an array of `PostDTO` and then assigned to the posts property.
+* The result is decoded into an array of `PostDTO` and then assigned to the posts property.
     
-*   This operation is performed asynchronously using Swift’s `async/await`, making it efficient and non-blocking.
+* This operation is performed asynchronously using Swift’s `async/await`, making it efficient and non-blocking.
     
 
 In this example, HomeView is a SwiftUI view that displays the number of posts fetched from an API using HomeViewModeland APIClient.
@@ -149,16 +149,16 @@ struct HomeView: View {
 }
 ```
 
-*   HomeView uses `@StateObject` to create and manage the viewModel instance, which is responsible for handling data fetching.
+* HomeView uses `@StateObject` to create and manage the viewModel instance, which is responsible for handling data fetching.
     
-*   The body of the view contains a simple Text element that displays the count of posts from the viewModel.
+* The body of the view contains a simple Text element that displays the count of posts from the viewModel.
     
 
 In the `.onAppear` modifier:
 
-*   A Task block is created to perform the asynchronous viewModel.getPosts() call. This ensures that the posts are fetched when the view appears on the screen.
+* A Task block is created to perform the asynchronous viewModel.getPosts() call. This ensures that the posts are fetched when the view appears on the screen.
     
-*   Inside the task, `viewModel.getPosts()` is called asynchronously, requesting the API to retrieve posts via the APIClient. The posts array in HomeViewModel is updated when the data is successfully fetched, and the UI reflects the new data automatically due to the @Published property.
+* Inside the task, `viewModel.getPosts()` is called asynchronously, requesting the API to retrieve posts via the APIClient. The posts array in HomeViewModel is updated when the data is successfully fetched, and the UI reflects the new data automatically due to the @Published property.
     
 
 Find the full implementation of the Networking layer alongside example usage in a small app with ViewModel in SwiftUI, and unit test coverage for the APIClient and APIEndpoint. Github: \[link\]
@@ -171,25 +171,25 @@ ___
 
 Concurrency is about performing multiple tasks at the same time. In programming, it means you can run different pieces of code simultaneously rather than one after the other. This is especially useful for tasks that can be done independently, like downloading files, processing data, or handling user inputs. In Swift, you manage concurrency using:
 
-*   **Grand Central Dispatch** (GCD): A way to execute code on different threads. You can schedule tasks to run asynchronously on various queues (e.g., background queue for non-UI work, main queue for UI updates).
+* **Grand Central Dispatch** (GCD): A way to execute code on different threads. You can schedule tasks to run asynchronously on various queues (e.g., background queue for non-UI work, main queue for UI updates).
     
-*   **Swift Concurrency** (async/await): A more modern approach introduced in Swift 5.5, which simplifies writing asynchronous code. With async/await, you can write code that looks synchronous but performs tasks in the background.
+* **Swift Concurrency** (async/await): A more modern approach introduced in Swift 5.5, which simplifies writing asynchronous code. With async/await, you can write code that looks synchronous but performs tasks in the background.
     
 
 #### Thread Safety
 
 Thread safety ensures that your code works correctly when multiple threads access the same data at the same time. If your code is not thread-safe, you might run into problems like:
 
-*   **Data races**: When two or more threads try to read and write the same data simultaneously, leading to unpredictable results.
+* **Data races**: When two or more threads try to read and write the same data simultaneously, leading to unpredictable results.
     
-*   **Crashes**: When data is accessed in an unexpected state due to concurrent modifications. 
+* **Crashes**: When data is accessed in an unexpected state due to concurrent modifications. 
     
 
 To make code thread-safe, you need to protect shared data so that only one thread can access or modify it at a time. This can be done using synchronization mechanisms like locks, serial queues, or using thread-safe data structures. In Swift, you use:
 
-*   `Serial Queues`: Ensure that tasks run one after another, thus preventing concurrent access.
+* `Serial Queues`: Ensure that tasks run one after another, thus preventing concurrent access.
     
-*   `@MainActor` or DispatchQueue.main: Ensures that code accessing UI elements or other main-thread-bound resources is run on the main thread.
+* `@MainActor` or DispatchQueue.main: Ensures that code accessing UI elements or other main-thread-bound resources is run on the main thread.
 
 ```swift
 // Using a serial queue to ensure thread safety
@@ -229,9 +229,9 @@ When you use `@preconcurrency`, you're essentially telling the compiler that th
 
 **Important Considerations**
 
-*   **Backward Compatibility**: `@preconcurrency` is mainly useful when you're transitioning code to Swift’s concurrency model but still have to interact with legacy code that doesn’t adhere to the new concurrency guarantees.
+* **Backward Compatibility**: `@preconcurrency` is mainly useful when you're transitioning code to Swift’s concurrency model but still have to interact with legacy code that doesn’t adhere to the new concurrency guarantees.
     
-*   **Compiler Relaxation**: It doesn’t make your code thread-safe; it simply relaxes some of the stricter concurrency rules enforced by the compiler. You need to be cautious when using it, as it may lead to potential concurrency issues if the code isn’t properly designed for concurrent execution.
+* **Compiler Relaxation**: It doesn’t make your code thread-safe; it simply relaxes some of the stricter concurrency rules enforced by the compiler. You need to be cautious when using it, as it may lead to potential concurrency issues if the code isn’t properly designed for concurrent execution.
     
 
 ### Sendable Protocol
@@ -242,9 +242,9 @@ Since Swift 6 emphasizes safe concurrency, ensuring that types conform to Sendab
 
 For a class to conform to `Sendable`, it must guarantee that its state is safely shared across threads, meaning:
 
-*   Its properties must either be `Sendable` themselves or designed so that there is no race condition when accessed concurrently.
+* Its properties must either be `Sendable` themselves or designed so that there is no race condition when accessed concurrently.
     
-*   In some cases, using `@unchecked` Sendable is necessary if you’re sure the class is safe but the compiler can’t guarantee it due to the class’s design (e.g., mutable state protected by locks), so this responsibility is not in the hands of the developer and not to the compiler checks.
+* In some cases, using `@unchecked` Sendable is necessary if you’re sure the class is safe but the compiler can’t guarantee it due to the class’s design (e.g., mutable state protected by locks), so this responsibility is not in the hands of the developer and not to the compiler checks.
 
 ```swift
 // The use of NSLock ensures thread safety when accessing 
@@ -306,9 +306,9 @@ final class MyClass: @unchecked Sendable {
 
 **Why @unchecked Sendable?**By default, the compiler performs strict checks to ensure that types marked as Sendable can safely be transferred across threads. These checks ensure that:
 
-*   Mutable state isn’t accidentally shared between threads without proper synchronization.
+* Mutable state isn’t accidentally shared between threads without proper synchronization.
     
-*   All properties of the type conform to Sendable.
+* All properties of the type conform to Sendable.
     
 
 However, if you have a type that contains non-Sendable properties or uses a class (which is reference type and mutable by default), the compiler won't automatically consider it safe for concurrency.
@@ -322,18 +322,18 @@ struct MyStruct: Sendable {
 
 You use @unchecked Sendable when:
 
-*   You’re certain that your type is thread-safe.
+* You’re certain that your type is thread-safe.
     
-*   The compiler can’t confirm thread safety but you have applied your own synchronization or use only immutable data.
+* The compiler can’t confirm thread safety but you have applied your own synchronization or use only immutable data.
     
 
 Using @unchecked Sendable bypasses the compiler's checks, so you must be careful to ensure the code is indeed safe. If not, you could introduce subtle concurrency bugs.
 
 ### When to Use @MainActor
 
-*   The code in the methods interacts directly with the UI (e.g., updating UI elements like lists, labels, or progress bars).
+* The code in the methods interacts directly with the UI (e.g., updating UI elements like lists, labels, or progress bars).
     
-*   The protocol or its methods are designed to be run on the main thread for thread safety, especially if you deal with UI updates or other main-thread-sensitive operations (such as updating `@Published` properties in ObservableObject).
+* The protocol or its methods are designed to be run on the main thread for thread safety, especially if you deal with UI updates or other main-thread-sensitive operations (such as updating `@Published` properties in ObservableObject).
     
 
 Additionally, If most of the properties and methods in your view model involve UI updates, keeping `@MainActor` at the protocol level simplifies the code. 
@@ -347,31 +347,37 @@ However, if you’re doing a lot of background work (e.g., networking or data pr
 
 #### Reasons to use `@MainActor`
 
-*    **UI-Related Protocol**: If HomeViewModelProtocol involves properties or methods that interact with the UI (e.g., updating views, binding `@Published` properties), you must ensure that these interactions are performed on the main thread. The `@MainActor` attribute guarantees this behavior by automatically routing calls to the main thread.
+*  **UI-Related Protocol**: If HomeViewModelProtocol involves properties or methods that interact with the UI (e.g., updating views, binding `@Published` properties), you must ensure that these interactions are performed on the main thread. The `@MainActor` attribute guarantees this behavior by automatically routing calls to the main thread.
     
-*   **Thread Safety**: By marking a protocol with `@MainActor`, any conforming type (e.g., a view model) ensures that all of its properties and methods are always accessed on the main thread, avoiding thread-safety issues that could occur when data is updated from different threads simultaneously.
+* **Thread Safety**: By marking a protocol with `@MainActor`, any conforming type (e.g., a view model) ensures that all of its properties and methods are always accessed on the main thread, avoiding thread-safety issues that could occur when data is updated from different threads simultaneously.
     
-*   **Automatic Thread Hopping**: The `@MainActor` attribute handles moving execution to the main thread for you, even if the caller is on a background thread. This simplifies your code, ensuring that your UI remains responsive without manually hopping to the main thread every time you update the UI.
+* **Automatic Thread Hopping**: The `@MainActor` attribute handles moving execution to the main thread for you, even if the caller is on a background thread. This simplifies your code, ensuring that your UI remains responsive without manually hopping to the main thread every time you update the UI.
     
-*   **Concurrency Model Compatibility**: Swift’s structured concurrency model expects code that interacts with the UI to be marked with `@MainActor`. If you omit it and your view model is used in a concurrent context, you’ll likely run into thread-related issues or crashes.
+* **Concurrency Model Compatibility**: Swift’s structured concurrency model expects code that interacts with the UI to be marked with `@MainActor`. If you omit it and your view model is used in a concurrent context, you’ll likely run into thread-related issues or crashes.
     
 
 ### The end 🏁
 
-I hope you found this article both engaging and useful for your projects. Personally, I have successfully applied these techniques in my own projects and technical challenges without any issues. You can customize and extend the methods as needed, while utilizing generics to maintain code efficiency. Asynchronous programming with Sendable and async/await is likely to become a standard practice in the near future for any Apple platform.
+I hope you found this article both engaging and useful for your projects. Personally, I have successfully applied these techniques in my own projects and technical challenges without any issues. You can customize and extend the methods as needed while utilizing generics to maintain code efficiency. Asynchronous programming with Sendable and async/await is likely to become a standard practice in the near future for any Apple platform.
 
 Thank you for following along. I encourage you to share any feedback or suggestions you may have about this Networking Layer. Together, we can continue to enhance and refine it.
 
 ### Resources
 
-[MainActor](https://developer.apple.com/documentation/Swift/MainActor?changes=__7) by Apple [MainActor](https://www.avanderlee.com/swift/mainactor-dispatch-main-thread/) by Avanderlee [Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/) _by Apple_ [Async await by](https://www.avanderlee.com/swift/async-await/) _by Avanderlee_[Sendable protocol](https://developer.apple.com/documentation/swift/sendable#) _by Apple_[Sendable and @Sendable protocol](https://www.avanderlee.com/swift/sendable-protocol-closures/) _by Avanderlee_[Generics](https://www.hackingwithswift.com/plus/intermediate-swift/understanding-generics-part-1) _by HackingWithSwift_
+* [MainActor](https://developer.apple.com/documentation/Swift/MainActor?changes=__7) _by Apple_
+* [MainActor](https://www.avanderlee.com/swift/mainactor-dispatch-main-thread/) _by Avanderlee_
+* [Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/) _by Apple_ 
+* [Async await by](https://www.avanderlee.com/swift/async-await/) _by Avanderlee_
+* [Sendable protocol](https://developer.apple.com/documentation/swift/sendable#) _by Apple_
+* [Sendable and @Sendable protocol](https://www.avanderlee.com/swift/sendable-protocol-closures/) _by Avanderlee_
+* [Generics](https://www.hackingwithswift.com/plus/intermediate-swift/understanding-generics-part-1) _by HackingWithSwift_
 
-### GitHub
+### Medium article:
 
-Find the full implementation in the GitHub repository:
+https://medium.com/@egzonpllana/building-a-generic-thread-safe-networking-layer-in-swift-6-927fa1d0cce8
 
 ### Let’s Connect
 
-*   LinkedIn: [https://www.linkedin.com/in/egzon-pllana](https://www.linkedin.com/in/egzon-pllana)
+* LinkedIn: [https://www.linkedin.com/in/egzon-pllana](https://www.linkedin.com/in/egzon-pllana)
     
-*   GitHub: [https://github.com/egzonpllana](https://github.com/egzonpllana)
+* GitHub: [https://github.com/egzonpllana](https://github.com/egzonpllana)
