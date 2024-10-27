@@ -190,7 +190,7 @@ In the `.onAppear` modifier:
     
 * Inside the task, `viewModel.getPosts()` is called asynchronously, requesting the API to retrieve posts via the APIClient. The posts array in HomeViewModel is updated when the data is successfully fetched, and the UI reflects the new data automatically due to the @Published property.
 
-Isn’t this the most beautiful Networking layer you have ever seen? If yes, let's go an extra mile to understand concurrency and thread-safe techniques in Swift👇🚀
+Isn’t this the most beautiful Networking layer you have ever seen? If yes, let's go an extra mile to understand concurrency and thread-safe techniques in Swift:
 https://medium.com/p/5ccfdc0ca2b6
 
 ### The end 🏁
