@@ -83,22 +83,22 @@ APIClientProtocol defines the contract for making network requests and handling
 
 ```swift
 func request<T: Decodable & Sendable>(
-        _ endpoint: any APIEndpointProtocol,
-        decoder: JSONDecoder
-    ) async throws -> T {
-        guard let request = endpoint.urlRequest else {
-            throw APIClientError.invalidURL
-        }
-        
-        // Perform the network request and decode the data
-        let data = try await performRequest(request)
-        do {
-            return try decoder.decode(T.self, from: data)
-        } catch {
-            // Handle decoding errors
-            throw APIClientError.decodingFailed(error)
-        }
+    _ endpoint: any APIEndpointProtocol,
+    decoder: JSONDecoder
+) async throws -> T {
+    guard let request = endpoint.urlRequest else {
+        throw APIClientError.invalidURL
     }
+    
+    // Perform the network request and decode the data
+    let data = try await performRequest(request)
+    do {
+        return try decoder.decode(T.self, from: data)
+    } catch {
+        // Handle decoding errors
+        throw APIClientError.decodingFailed(error)
+    }
+}
 ```
 
 **Parameters**
