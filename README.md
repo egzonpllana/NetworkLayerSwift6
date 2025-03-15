@@ -1,6 +1,6 @@
 # Building a generic, thread-safe Networking Layer in Swift 6
 
-![NetworkingLayerSwift6](https://github.com/user-attachments/assets/0f41a245-cd5d-4044-83a7-f143d57bfc46)
+![NetworkingLayerSwift6](https://github.com/user-attachments/assets/b7f3d451-72cd-4b3a-bf2e-bbd58acec351)
 
 ___
 
