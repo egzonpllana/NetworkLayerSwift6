@@ -1,6 +1,13 @@
 import Foundation
 
-/// A protocol defining the methods for making API requests.
+/// A protocol defining an API client for making network requests.
+///
+/// `APIClientProtocol` provides methods for sending requests to API endpoints and decoding responses.
+/// It supports standard requests, requests with progress tracking, and requests using Alamofire.
+///
+/// All methods are asynchronous and throw errors if the request fails.
+///
+/// - Note: Conforming types must be `Sendable` to ensure thread safety.
 protocol APIClientProtocol: Sendable {
     /// Sends a request to the specified endpoint and decodes the response into a given type.
     ///
