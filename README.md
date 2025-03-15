@@ -115,6 +115,51 @@ func request<T: Decodable & Sendable>(
 * `Sendable`: This protocol indicates that the type can be safely used in concurrent code. It’s essential for types that will be used across different threads or tasks, ensuring that they don’t cause data races or concurrency issues.
     
 
+### Network Interceptor
+
+#### What is a Network Interceptor?
+A **Network Interceptor** is a component that allows you to modify or inspect outgoing requests and incoming responses in a networking layer. It acts as a middleware between the `APIClient` and the actual network request execution.
+
+#### What it does
+Network Interceptors can:
+- Modify requests before they are sent (e.g., adding headers, authentication tokens).
+- Log requests and responses for debugging.
+- Retry failed requests automatically.
+- Enforce timeouts or custom error handling strategies.
+
+#### When to use
+Use Network Interceptors when you need to:
+- Standardize authentication by injecting tokens into every request.
+- Log network activity without modifying the `APIClient` logic.
+- Handle automatic retries for specific failure conditions.
+- Add request-specific configurations dynamically.
+
+#### Example: Adding Headers with a Network Interceptor
+A common use case for interceptors is injecting headers (such as authorization tokens or custom identifiers) into every request.
+
+```swift
+struct HeaderInjectorInterceptor: NetworkInterceptor {
+    private let headers: [String: String]
+
+    init(headers: [String: String]) {
+        self.headers = headers
+    }
+
+    func intercept(_ request: URLRequest) -> URLRequest {
+        var modifiedRequest = request
+        headers.forEach { key, value in
+            modifiedRequest.setValue(value, forHTTPHeaderField: key)
+        }
+        return modifiedRequest
+    }
+}
+
+// Usage in APIClient:
+let apiClient = APIClient(interceptors: [
+    HeaderInjectorInterceptor(headers: ["Authorization": "Bearer my_token"])
+])
+```
+
 **Functionality**
 
 * **URL Request Validation**: The method first checks if the endpoint provides a valid URL request. If not, it throws an APIClientError.invalidURL, indicating a configuration issue. 
