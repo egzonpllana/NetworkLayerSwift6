@@ -1,22 +1,23 @@
 import Foundation
 import Alamofire
 
-private extension String {
-    static let tokenWithSpace = "Token "
-    static let authorization = "Authorization"
-}
-
 final class APIClient: APIClientProtocol {
+
     // MARK: - Properties -
-    private let token: String?
     private let session: URLSession
-    
+    private let interceptors: [any NetworkInterceptor]
+
     // MARK: - Initialization -
-    init(token: String? = nil, session: URLSession = .shared) {
-        self.token = token
+    init(
+        session: URLSession = .shared,
+        interceptors: [any NetworkInterceptor] = []
+    ) {
         self.session = session
+        // Note:
+        // Using interceptors only for example purposes.
+        self.interceptors = interceptors + Interceptors.example
     }
-    
+
     // MARK: - Methods -
     func request<T: Decodable & Sendable>(
         _ endpoint: any APIEndpointProtocol,
@@ -25,28 +26,25 @@ final class APIClient: APIClientProtocol {
         guard let request = endpoint.urlRequest else {
             throw APIClientError.invalidURL
         }
-        
-        // Perform the network request and decode the data
+
         let data = try await performRequest(request)
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            // Handle decoding errors
             throw APIClientError.decodingFailed(error)
         }
     }
-    
+
     func requestVoid(
         _ endpoint: any APIEndpointProtocol
     ) async throws {
         guard let request = endpoint.urlRequest else {
             throw APIClientError.invalidURL
         }
-        
-        // Perform the network request
-       try await performRequest(request)
+
+        try await performRequest(request)
     }
-    
+
     @discardableResult
     func requestWithProgress(
         _ endpoint: any APIEndpointProtocol,
@@ -57,7 +55,7 @@ final class APIClient: APIClientProtocol {
         guard let request = endpoint.urlRequest else {
             throw APIClientError.urlRequestIsEmpty
         }
-        
+
         do {
             let data = try await performRequest(request, progressDelegate: progressDelegate)
             return data
@@ -69,7 +67,7 @@ final class APIClient: APIClientProtocol {
 
 // Additional method just in case you want to work with Alamofire framework.
 extension APIClient {
-    
+
     func requestWithAlamofire<T: Decodable & Sendable>(
         _ endpoint: any APIEndpointProtocol,
         decoder: JSONDecoder
@@ -78,30 +76,26 @@ extension APIClient {
             throw APIClientError.invalidURL
         }
 
-        // Create a request using Alamofire
         let request = AF.request(urlRequest)
 
         do {
-            // Await the Alamofire request
             let data = try await withCheckedThrowingContinuation { continuation in
                 request.responseData { response in
                     switch response.result {
-                    case .success(let data):
-                        continuation.resume(returning: data)
-                    case .failure(let error):
-                        continuation.resume(throwing: error)
+                        case .success(let data):
+                            continuation.resume(returning: data)
+                        case .failure(let error):
+                            continuation.resume(throwing: error)
                     }
                 }
             }
-            
-            // Decode the response data
+
             do {
                 return try decoder.decode(T.self, from: data)
             } catch {
                 throw APIClientError.decodingFailed(error)
             }
         } catch {
-            // Handle Alamofire errors
             if let urlError = error as? URLError {
                 throw APIClientError.networkError(urlError)
             } else {
@@ -113,46 +107,49 @@ extension APIClient {
 
 // MARK: - Private extensions -
 private extension APIClient {
-    
+
     @discardableResult
     private func performRequest(
         _ request: URLRequest,
         progressDelegate: (any UploadProgressDelegateProtocol)? = nil
     ) async throws -> Data {
-        // Inject token if available
-        if let token = token {
-            var mutableRequest = request
-            mutableRequest.addValue(.tokenWithSpace + String(token), forHTTPHeaderField: .authorization)
+        var mutableRequest = request
+
+        // Apply request interceptors
+        for interceptor in interceptors {
+            mutableRequest = interceptor.intercept(request: mutableRequest)
         }
-        
-        // Configure session
+
         let session: URLSession
         if let progressDelegate {
             session = URLSession(configuration: .default, delegate: progressDelegate, delegateQueue: nil)
         } else {
             session = self.session
         }
-        
+
         do {
-            // Perform the network request
-            let (data, response) = try await session.data(for: request)
-            
-            // Ensure the response is an HTTP URL response
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw APIClientError.invalidResponse(data)
+            let (data, response) = try await session.data(for: mutableRequest)
+
+            // Apply response interceptors
+            var modifiedData = data
+            var modifiedResponse = response
+            for interceptor in interceptors {
+                let result = interceptor.intercept(response: modifiedResponse, data: modifiedData)
+                modifiedResponse = result.0 ?? modifiedResponse
+                modifiedData = result.1 ?? modifiedData
             }
-            
-            // Log the HTTP response
+
+            guard let httpResponse = modifiedResponse as? HTTPURLResponse else {
+                throw APIClientError.invalidResponse(modifiedData)
+            }
+
             log("Received HTTP response: \(httpResponse)")
-            
-            // Validate HTTP status code
             guard (200...299).contains(httpResponse.statusCode) else {
                 throw APIClientError.statusCode(httpResponse.statusCode)
             }
-            
-            return data
+
+            return modifiedData
         } catch {
-            // Handle specific errors
             if let urlError = error as? URLError {
                 throw APIClientError.networkError(urlError)
             } else {
@@ -164,7 +161,7 @@ private extension APIClient {
 
 // MARK: - Log extension -
 private extension APIClient {
-    
+
     private func log(_ string: String) {
         #if DEBUG
         print(string)
