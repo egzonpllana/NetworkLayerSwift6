@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import EventHorizon
 
 private enum Constants {
     static let baseURL = "https://jsonplaceholder.typicode.com"
@@ -24,11 +25,11 @@ enum APIEndpoint {
 
 /// Extension to conform to `APIEndpointProtocol`.
 extension APIEndpoint: APIEndpointProtocol {
-    /// API version used by endpoints.
-    var apiVersion: APIVersion {
-        .v1
+
+    var apiVersion: String {
+        APIVersion.v1.rawValue
     }
-    
+
     /// Endpoint base URL.
     var baseURL: String {
         return Constants.baseURL

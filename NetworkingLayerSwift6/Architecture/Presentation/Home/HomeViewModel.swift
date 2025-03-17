@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import EventHorizon
 
 final class HomeViewModel: HomeViewModelProtocol {
     

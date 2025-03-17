@@ -5,6 +5,8 @@
 //  Created by Egzon Pllana on 15.3.25.
 //
 
+import EventHorizon
+
 enum Interceptors {
     static let example: [any NetworkInterceptor] = [
         AuthInterceptor(tokenProvider: "my_token"),

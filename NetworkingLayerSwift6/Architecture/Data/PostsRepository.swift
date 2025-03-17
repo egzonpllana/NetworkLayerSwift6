@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import EventHorizon
 
 enum PostConstants {
     static let defaultUserId = 1
@@ -19,7 +20,11 @@ final class PostsRepository: PostsRepositoryProtocol {
     private let apiClient: any APIClientProtocol
     private typealias apiEndpoint = APIEndpoint
 
-    init(apiClient: any APIClientProtocol = APIClient()) {
+    init(
+        apiClient: any APIClientProtocol = APIClient(
+            interceptors: Interceptors.example
+        )
+    ) {
         self.apiClient = apiClient
     }
 

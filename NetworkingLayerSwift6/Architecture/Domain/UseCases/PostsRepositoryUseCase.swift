@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import EventHorizon
 
 /// Concrete implementation of `PostsRepositoryUseCaseProtocol` for managing post-related operations.
 final class PostsRepositoryUseCase: PostsRepositoryUseCaseProtocol {

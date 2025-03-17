@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import EventHorizon
 
 /// Protocol defining the use case for managing post-related operations.
 protocol PostsRepositoryUseCaseProtocol: Sendable {

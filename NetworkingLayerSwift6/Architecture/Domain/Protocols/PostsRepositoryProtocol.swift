@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import EventHorizon
 
 /// Protocol defining the operations for managing posts and uploading images.
 protocol PostsRepositoryProtocol: Sendable {
