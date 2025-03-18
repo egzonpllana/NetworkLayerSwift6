@@ -1,4 +1,4 @@
-# Building a generic, thread-safe Networking Layer in Swift 6
+# Building a generic, thread-safe Networking Layer in Swift 6 with Interceptors
 
 ![NetworkingLayerSwift6](https://github.com/user-attachments/assets/b7f3d451-72cd-4b3a-bf2e-bbd58acec351)
 
