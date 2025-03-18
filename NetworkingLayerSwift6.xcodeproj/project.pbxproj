@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		522AB0DA2D88E72000D733F0 /* EventHorizon in Frameworks */ = {isa = PBXBuildFile; productRef = 522AB0D92D88E72000D733F0 /* EventHorizon */; };
+		522AB1392D88F04E00D733F0 /* EventHorizon in Frameworks */ = {isa = PBXBuildFile; productRef = 522AB1382D88F04E00D733F0 /* EventHorizon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				522AB0DA2D88E72000D733F0 /* EventHorizon in Frameworks */,
+				522AB1392D88F04E00D733F0 /* EventHorizon in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +121,7 @@
 			name = NetworkingLayerSwift6;
 			packageProductDependencies = (
 				522AB0D92D88E72000D733F0 /* EventHorizon */,
+				522AB1382D88F04E00D733F0 /* EventHorizon */,
 			);
 			productName = NetworkingLayerSwift6;
 			productReference = 52EB7E482C70B90400069B79 /* NetworkingLayerSwift6.app */;
@@ -153,7 +156,7 @@
 			mainGroup = 52EB7E3F2C70B90400069B79;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				522AB0D82D88E72000D733F0 /* XCLocalSwiftPackageReference "../EventHorizonPackage/EventHorizon" */,
+				522AB1372D88F04E00D733F0 /* XCRemoteSwiftPackageReference "EventHorizon" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52EB7E492C70B90400069B79 /* Products */;
@@ -470,16 +473,25 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		522AB0D82D88E72000D733F0 /* XCLocalSwiftPackageReference "../EventHorizonPackage/EventHorizon" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../EventHorizonPackage/EventHorizon;
+/* Begin XCRemoteSwiftPackageReference section */
+		522AB1372D88F04E00D733F0 /* XCRemoteSwiftPackageReference "EventHorizon" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/egzonpllana/EventHorizon.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		522AB0D92D88E72000D733F0 /* EventHorizon */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = EventHorizon;
+		};
+		522AB1382D88F04E00D733F0 /* EventHorizon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 522AB1372D88F04E00D733F0 /* XCRemoteSwiftPackageReference "EventHorizon" */;
 			productName = EventHorizon;
 		};
 /* End XCSwiftPackageProductDependency section */

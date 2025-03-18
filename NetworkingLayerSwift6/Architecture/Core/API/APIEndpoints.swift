@@ -17,14 +17,14 @@ private enum Constants {
 }
 
 // Endpoints
-enum APIEndpoint {
+enum APIEndpointExample {
     case getPosts
     case createPost(PostDTO)
     case uploadImage(data: Data, fileName: String, mimeType: ImageMimeType)
 }
 
 /// Extension to conform to `APIEndpointProtocol`.
-extension APIEndpoint: APIEndpointProtocol {
+extension APIEndpointExample: APIEndpointProtocol {
 
     var apiVersion: String {
         APIVersion.v1.rawValue

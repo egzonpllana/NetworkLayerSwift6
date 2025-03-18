@@ -18,7 +18,7 @@ enum PostConstants {
 /// Concrete implementation of `PostsRepositoryProtocol` for managing posts and image uploads.
 final class PostsRepository: PostsRepositoryProtocol {
     private let apiClient: any APIClientProtocol
-    private typealias apiEndpoint = APIEndpoint
+    private typealias apiEndpoint = APIEndpointExample
 
     init(
         apiClient: any APIClientProtocol = APIClient(
