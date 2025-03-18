@@ -3,6 +3,8 @@
 ![NetworkingLayerSwift6](https://github.com/user-attachments/assets/b7f3d451-72cd-4b3a-bf2e-bbd58acec351)
 
 ___
+#### Built by using EventHorizon Swift package:
+https://github.com/egzonpllana/EventHorizon
 
 In this article, we will build a networking layer that meets the thread safety requirements introduced in **Swift 6**, using Swift features such as async-await, Sendable, MainActor, etc. While many of these features appeared in Swift 5.5, they are becoming more important, especially in Swift 6. 
 
