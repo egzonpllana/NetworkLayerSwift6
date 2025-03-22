@@ -27,11 +27,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5240D4D12C72A90E000F58CD /* NetworkingLayerSwift6Tests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = NetworkingLayerSwift6Tests;
-			sourceTree = "<group>";
-		};
 		52EB7E4A2C70B90400069B79 /* NetworkingLayerSwift6 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = NetworkingLayerSwift6;
@@ -63,7 +58,6 @@
 			isa = PBXGroup;
 			children = (
 				52EB7E4A2C70B90400069B79 /* NetworkingLayerSwift6 */,
-				5240D4D12C72A90E000F58CD /* NetworkingLayerSwift6Tests */,
 				52EB7E492C70B90400069B79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,9 +86,6 @@
 			);
 			dependencies = (
 				5240D4D52C72A90E000F58CD /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				5240D4D12C72A90E000F58CD /* NetworkingLayerSwift6Tests */,
 			);
 			name = NetworkingLayerSwift6Tests;
 			packageProductDependencies = (
