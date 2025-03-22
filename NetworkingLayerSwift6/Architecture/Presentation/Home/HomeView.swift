@@ -24,11 +24,9 @@ struct HomeView: View {
         }
         .padding()
         .onAppear {
-            // Enable any for testing.
-            // -----------------------
             getPosts()
-            // createPost()
-            // uploadImage()
+            createPost()
+            uploadImage()
         }
     }
 
