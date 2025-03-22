@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		522AB0DA2D88E72000D733F0 /* EventHorizon in Frameworks */ = {isa = PBXBuildFile; productRef = 522AB0D92D88E72000D733F0 /* EventHorizon */; };
-		52E9491A2D8E375300198669 /* EventHorizon in Frameworks */ = {isa = PBXBuildFile; productRef = 52E949192D8E375300198669 /* EventHorizon */; };
+		52B350682D8F3F1200A9E605 /* EventHorizon in Frameworks */ = {isa = PBXBuildFile; productRef = 52B350672D8F3F1200A9E605 /* EventHorizon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				522AB0DA2D88E72000D733F0 /* EventHorizon in Frameworks */,
-				52E9491A2D8E375300198669 /* EventHorizon in Frameworks */,
+				52B350682D8F3F1200A9E605 /* EventHorizon in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +121,7 @@
 			name = NetworkingLayerSwift6;
 			packageProductDependencies = (
 				522AB0D92D88E72000D733F0 /* EventHorizon */,
-				52E949192D8E375300198669 /* EventHorizon */,
+				52B350672D8F3F1200A9E605 /* EventHorizon */,
 			);
 			productName = NetworkingLayerSwift6;
 			productReference = 52EB7E482C70B90400069B79 /* NetworkingLayerSwift6.app */;
@@ -156,7 +156,7 @@
 			mainGroup = 52EB7E3F2C70B90400069B79;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				52E949182D8E375300198669 /* XCRemoteSwiftPackageReference "EventHorizon" */,
+				52B350662D8F3F1200A9E605 /* XCRemoteSwiftPackageReference "EventHorizon" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52EB7E492C70B90400069B79 /* Products */;
@@ -476,7 +476,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		52E949182D8E375300198669 /* XCRemoteSwiftPackageReference "EventHorizon" */ = {
+		52B350662D8F3F1200A9E605 /* XCRemoteSwiftPackageReference "EventHorizon" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/egzonpllana/EventHorizon.git";
 			requirement = {
@@ -491,9 +491,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = EventHorizon;
 		};
-		52E949192D8E375300198669 /* EventHorizon */ = {
+		52B350672D8F3F1200A9E605 /* EventHorizon */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 52E949182D8E375300198669 /* XCRemoteSwiftPackageReference "EventHorizon" */;
+			package = 52B350662D8F3F1200A9E605 /* XCRemoteSwiftPackageReference "EventHorizon" */;
 			productName = EventHorizon;
 		};
 /* End XCSwiftPackageProductDependency section */
