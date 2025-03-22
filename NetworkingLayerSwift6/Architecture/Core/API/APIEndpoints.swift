@@ -71,7 +71,7 @@ extension APIEndpointExample: APIEndpointProtocol {
                 guard let postData = postDTO.toJSONData() else {
                     return nil
                 }
-                return .json(postData)
+                return .data(postData)
             case .uploadImage(let data, let fileName, let mimeType):
                 let multipartData = MultipartFormData(
                     boundary: UUID().uuidString,
