@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/egzonpllana/EventHorizon.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "a81533dbe5b70265774bcc70113feb906c3f681c"
+        "revision" : "d890fa4418c3cfb50679fcb31b25e3b0ee85bcbc",
+        "version" : "1.0.0"
       }
     }
   ],
