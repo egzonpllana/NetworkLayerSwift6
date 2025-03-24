@@ -40,7 +40,7 @@ final class PostsRepository: PostsRepositoryProtocol {
             body: PostConstants.defaultBody
         )
         do {
-            try await apiClient.requestVoid(apiEndpoint.createPost(newPost))
+            try await apiClient.request(apiEndpoint.createPost(newPost))
         } catch {
             log("Error: \(error)")
             throw error
@@ -59,7 +59,7 @@ final class PostsRepository: PostsRepositoryProtocol {
             mimeType: ImageMimeType(rawValue: mimeType) ?? .png
         )
         do {
-            try await apiClient.requestWithProgress(
+            try await apiClient.request(
                 endPoint,
                 progressDelegate: progressDelegate
             )

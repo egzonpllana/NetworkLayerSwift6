@@ -8,7 +8,7 @@
 import EventHorizon
 
 enum Interceptors {
-    static let example: [any NetworkInterceptor] = [
+    static let example: [any NetworkInterceptorProtocol] = [
         AuthInterceptor(tokenProvider: "my_token"),
         LoggingInterceptor(),
         RetryInterceptor(),
